@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loginapp/api_login.dart';
 
 void main() => runApp(MyApp());
 
@@ -20,6 +21,10 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  var email = "";
+  var password = "";
+  PostResult postResult = null;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,10 +66,11 @@ class _LoginState extends State<Login> {
                       Icons.person,
                       size: 40,
                     ),
-                    hintText: "Username",
+                    hintText: "Email",
                     hintStyle: TextStyle(color: Colors.black87),
-                    labelText: "Username",
+                    labelText: "Email",
                     labelStyle: TextStyle(color: Colors.black)),
+                onChanged: (value) => {email = value},
               ),
               SizedBox(
                 height: 20,
@@ -83,8 +89,10 @@ class _LoginState extends State<Login> {
                     hintStyle: TextStyle(color: Colors.black87),
                     labelText: "Password",
                     labelStyle: TextStyle(color: Colors.black)),
+                onChanged: (value) => {password = value},
               ),
               SizedBox(
+                child: Text((postResult != null) ? postResult.token : " "),
                 height: 20,
               ),
               Card(
@@ -94,7 +102,12 @@ class _LoginState extends State<Login> {
                     height: 50,
                     child: InkWell(
                       splashColor: Colors.white,
-                      onTap: () {},
+                      onTap: () {
+                        PostResult.connectToAPI(email, password).then((value) {
+                          postResult = value;
+                          setState(() {});
+                        });
+                      },
                       child: Center(
                         child: Text(
                           "Login",
