@@ -23,7 +23,7 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   var email = "";
   var password = "";
-  PostResult postResult = null;
+  PostResult postResult = PostResult();
 
   @override
   Widget build(BuildContext context) {
